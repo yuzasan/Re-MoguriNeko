@@ -1,0 +1,12 @@
+# Blender 3.5.0 MTL File: 'castletest3tougou.blend'
+# www.blender.org
+
+newmtl ProBuilderDefault
+Ns 200.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 1
+map_Kd GridBox_Default.png
+map_d GridBox_Default.png

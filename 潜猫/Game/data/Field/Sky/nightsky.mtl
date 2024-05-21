@@ -1,0 +1,62 @@
+# Blender 3.5.0 MTL File: 'nightsky.blend'
+# www.blender.org
+
+newmtl back
+Ns 4.999998
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd night/Night Moon Burst_Cam_1_Back-Z.png
+
+newmtl down
+Ns 4.999998
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd night/Night Moon Burst_Cam_5_Down-Y.png
+
+newmtl front
+Ns 4.999998
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd night/NightMoonBurstCam_0_Front+Z.png
+
+newmtl left
+Ns 4.999998
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd night/Night Moon Burst_Cam_3_Right-X.png
+
+newmtl right
+Ns 4.999998
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd night/Night Moon Burst_Cam_2_Left+X.png
+
+newmtl up
+Ns 4.999998
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd night/Night Moon Burst_Cam_4_Up+Y.png
