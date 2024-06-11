@@ -30,7 +30,7 @@
 #define UP_SPEED 10.0f
 
 #define DBUG_SPEED 0.1f
-//#define DBUG_SPEED 0.7f
+#define HIGH_DBUG_SPEED 0.25f
 
 Player::Player(const CVector3D& pos) :CharaBase(TaskType::ePlayer)
 	,mp_camera(nullptr)
@@ -106,7 +106,8 @@ void Player::StateMove() {
 
 		//移動速度を取得
 		if (HOLD(CInput::eButton11)) {
-			float moveSpeed = SILENT_WALK_SPEED;
+			//float moveSpeed = SILENT_WALK_SPEED;
+			float moveSpeed = HIGH_DBUG_SPEED;
 			//移動方向と移動速度から移動ベクトルを求める
 			CVector3D moveVec = m_moveDir * moveSpeed;
 			m_vec = CVector3D(moveVec.x, m_vec.y, moveVec.z);

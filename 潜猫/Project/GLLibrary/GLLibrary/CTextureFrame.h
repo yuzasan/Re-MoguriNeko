@@ -3,10 +3,11 @@
 #include "Vertex.h"
 class CTextureFrame {
 	CVector4D m_clear_color;
-	CTexture *mp_texture;	//!描画先テクスチャー
+	std::vector<CTexture*> m_texture_list;	//!描画先テクスチャー
 	CTexture* mp_depth;		//!深度テクスチャー
 	GLuint m_frame;			//!フレームバッファ
-
+	int m_width;
+	int m_height;
 	GLint viewport_old[4];
 
 public:
@@ -19,7 +20,7 @@ public:
 	* @param clear_color	[in]　画面消去色
 
 	*/
-	CTextureFrame(int width,int height,const CVector4D& clear_color);
+	CTextureFrame(int width, int height, const CVector4D& clear_color, int color_rayer = 1, GLenum* internal_formats = nullptr, GLenum* formats = nullptr, GLenum* types = nullptr);
 	/**
 	* @fn デストラクタ
 	* デストラクタ
@@ -50,18 +51,18 @@ public:
 		@brief	テクスチャーの幅を取得
 		@retval	テクスチャーの幅
 	**/
-	int GetWidth();
+	int GetWidth()const;
 	/*!
 		@brief	テクスチャー高さを取得
 		@retval	テクスチャー高さ
 	**/
-	int GetHeight();
+	int GetHeight()const;
 	/*!
 		@brief	カラー用テクスチャーを取得
 		@retval	テクスチャーのポインタ
 	**/
-	CTexture* GetTexture() const{
-		return mp_texture;
+	CTexture* GetTexture(int idx=0) const{
+		return m_texture_list[idx];
 	}
 
 	/*!
@@ -81,5 +82,5 @@ public:
 		@param  target	[in]	描画テクスチャー
 		@retval	テクスチャー高さ
 	**/
-	static void Draw(int x, int y,int w,int h, CTexture*target);
+	static void Draw(float x, float y,float w,float h, CTexture*target);
 };

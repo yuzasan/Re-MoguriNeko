@@ -1,27 +1,17 @@
-
 #include "GL.h"
 #include "glpng.h"
 #include "CTexture.h"
-//#include "BmpFormat.h"
-//#include "png.h"
 
-
-//SDLインクルード（PNGファイル入力）
-//#include "SDL_image.h"
-
-
-CTexture::CTexture() : m_data(NULL),m_bufID(0), m_wrap(GL_REPEAT), m_filter(GL_LINEAR){
+CTexture::CTexture() : m_data(NULL), m_bufID(0), m_wrap(GL_REPEAT), m_filter(GL_LINEAR), m_filter_min(GL_LINEAR), m_type(GL_UNSIGNED_BYTE) {
 }
-CTexture::CTexture(int width, int height, GLenum format): CTexture()
-{
+CTexture::CTexture(int width, int height, GLenum internal_format, GLenum format, GLenum type) : CTexture() {
+	m_type = type;
 	m_width = width;
 	m_height = height;
-	m_wrap = GL_WRAP_BORDER;		
+	m_wrap = GL_WRAP_BORDER;
 	glGenTextures(1, &m_bufID);
 	glBindTexture(GL_TEXTURE_2D, m_bufID);
-	glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0,
-		format, GL_UNSIGNED_BYTE, nullptr);
-
+	glTexImage2D(GL_TEXTURE_2D, 0, internal_format, m_width, m_height, 0, format, type, nullptr);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_filter);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_filter);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_wrap);

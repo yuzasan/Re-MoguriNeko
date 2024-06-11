@@ -1,4 +1,3 @@
-//#include "Base/Base.h"
 #include "Game/Character/Player.h"
 #include "Game/Character/Enemy.h"
 #include "Game/Character/EnemyManager.h"
@@ -213,18 +212,13 @@ void Init(void)
 	//ライト設定
 	CLight::SetType(0, CLight::eLight_Direction);
 	CLight::SetPos(0, CVector3D(0, 200, 200));
-	CLight::SetDir(0, CVector3D(-1, -2, 1).GetNormalize());
-	//CLight::SetColor(0, CVector3D(0.1f, 0.1f, 0.1f), CVector3D(0.6f, 0.6f, 0.6f));
-	//CLight::SetColor(0, CVector3D(0.2f, 0.2f, 0.2f), CVector3D(0.8f, 0.8f, 0.8f));
+	CLight::SetDir(0, CVector3D(-0.1, -2, 0.1).GetNormalize());
 	CLight::SetColor(0, CVector3D(0.9f, 0.9f, 0.9f), CVector3D(0.1f, 0.1f, 0.1f));
 
 	//霧のようになる(フォグ)				,手前5,奥20
 	CLight::SetFogParam(CVector4D(1, 1, 1, 1), 700, 800);
 
 	//カメラ初期化
-	/*CCamera::GetCamera()->LookAt(CVector3D(5, 5, 5),
-		CVector3D(0, 0, 0),
-		CVector3D(0.0, 1.0, 0.0));*/
 	CCamera::GetCamera()->LookAt(CVector3D(0, 0, 10),
 		CVector3D(0, 0, 0),
 		CVector3D(0.0, 1.0, 0.0));
@@ -242,30 +236,13 @@ void Init(void)
 	//ゲーム起動時に一度だけ呼ばれる
 	//-----------------------------------------------------
 
-	/*
-	//モデルの読み込み
-	//プレイヤー
-	ADD_RESOURCE("Ninja", CModel::CreateModel("Character/Ninja/Ninja.a3m"));
-	//エネミー
-	ADD_RESOURCE("Golem", CModel::CreateModel("Character/golem/golem.a3m"));
-
-	//ステージの読み込み
-	ADD_RESOURCE("Stage", CModel::CreateModel("Field/Test/testField6.obj", 1, 1, 1));
-	*/
-
 	////タイトル読み込み
 	ADD_RESOURCE("Start", CImage::CreateImage("Title/Start.png"));
-	//ADD_RESOURCE("FusumaL", CModel::CreateModel("Effect/Load/FusumaL.obj"));
-	//ADD_RESOURCE("FusumaR", CModel::CreateModel("Effect/Load/FusumaR.obj"));
-	//ADD_RESOURCE("fusumaL", CImage::CreateImage("Effect/Load/fusumaL.png"));
-	//ADD_RESOURCE("fusumaR", CImage::CreateImage("Effect/Load/fusumaR.png"));
-	//
-	//new Title();
 
 	CLoadThread::GetInstance()->LoadStart(Load);
 	
 	//影描画機能を生成
-	CShadow::CreateInscance(20.0f, 20.0f, 2048, 2048);
+	CShadow::CreateInscance(20.0f, 5.0f, 2048, 2048);
 
 	// 計測結果の描画
 	DebugProfiler::Print();

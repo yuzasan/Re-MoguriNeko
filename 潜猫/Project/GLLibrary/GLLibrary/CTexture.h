@@ -9,6 +9,7 @@ protected:
 public:
 	int m_wrap;
 	int m_filter;
+	int m_filter_min;
 	int	m_width;
 	int m_height;
 	int m_internalFormat;
@@ -23,7 +24,7 @@ public:
 public:
 	CTexture();
 	//空のテクスチャ生成
-	CTexture(int width, int height, GLenum format);
+	CTexture(int width, int height, GLenum internal_format, GLenum format, GLenum type = GL_UNSIGNED_BYTE);
 	~CTexture();
 	static CTexture* LoadTexture(const char *path);
 	bool Load(const char *path);

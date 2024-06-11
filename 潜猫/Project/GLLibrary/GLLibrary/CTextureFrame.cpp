@@ -3,22 +3,28 @@
 #include "CShader.h"
 
 
-CTextureFrame::CTextureFrame(int width,int height, const CVector4D& clear_color)
+CTextureFrame::CTextureFrame(int width, int height, const CVector4D& clear_color, int color_rayer, GLenum* internal_formats, GLenum* formats, GLenum* types)
 {
 	m_clear_color = clear_color;
-
-	//カラー用テクスチャ生成
-	mp_texture = new CTexture(width,height, GL_RGBA);
+	m_width = width;
+	m_height = height;
+	for (int i = 0; i < color_rayer; i++) {
+		//カラー用テクスチャ生成
+		if (types)
+			m_texture_list.push_back(new CTexture(width, height, internal_formats[i], formats[i], types[i]));
+		else
+			m_texture_list.push_back(new CTexture(width, height, GL_RGBA, GL_RGBA));
+	}
 	//深度バッファ用テクスチャ生成
-	mp_depth = new CTexture(width, height, GL_DEPTH_COMPONENT);
-
+	mp_depth = new CTexture(width, height, GL_DEPTH_COMPONENT, GL_DEPTH_COMPONENT);
 	//フレームバッファ作成
 	glGenFramebuffersEXT(1, &m_frame);
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_frame);
 
-	//テクスチャー接続（カラー）
-	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, mp_texture->m_bufID, 0);
-
+	for (int i = 0; i < color_rayer; i++) {
+		//テクスチャー接続（カラー）
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, m_texture_list[i]->m_bufID, 0);
+	}
 	//テクスチャー接続（深度）
 	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, mp_depth->m_bufID, 0);
 
@@ -31,9 +37,9 @@ CTextureFrame::~CTextureFrame()
 {
 
 	glDeleteFramebuffers(1, &m_frame);
-	if (mp_texture) {
-		mp_texture->Release();
-		delete mp_texture;
+	for (auto& t : m_texture_list) {
+		t->Release();
+		delete t;
 	}
 	if(mp_depth) {
 		mp_depth->Release();
@@ -44,12 +50,23 @@ CTextureFrame::~CTextureFrame()
 
 void CTextureFrame::BeginDraw()
 {
-	//フレームバッファ有効化。以降の描画処理は mp_texture,mp_depthへ書き込まれる。
+	//フレームバッファ有効化。以降の描画処理は m_texture_list,mp_depthへ書き込まれる。
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, m_frame);
+	const GLenum bufferList[] = {
+		GL_COLOR_ATTACHMENT0,
+		GL_COLOR_ATTACHMENT1,
+		GL_COLOR_ATTACHMENT2,
+		GL_COLOR_ATTACHMENT3,
+		GL_COLOR_ATTACHMENT4,
+		GL_COLOR_ATTACHMENT5,
+		GL_COLOR_ATTACHMENT6,
+		GL_COLOR_ATTACHMENT7,
+	};
+	glDrawBuffers((GLsizei)m_texture_list.size(), bufferList);
 	//元のビューポートを保存
 	glGetIntegerv(GL_VIEWPORT, viewport_old);
 	//ビューポートをテクスチャーのサイズに設定
-	glViewport(0, 0, mp_texture->m_width, mp_texture->m_height);
+	glViewport(0, 0, m_width, m_height);
 
 	float back_color[4];
 	glGetFloatv(GL_COLOR_CLEAR_VALUE,back_color);
@@ -88,17 +105,17 @@ void CTextureFrame::ClearBuffer()
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 }
 
-int CTextureFrame::GetWidth()
+int CTextureFrame::GetWidth()const
 {
-	return mp_texture->m_width;
+	return m_width;
 }
 
-int CTextureFrame::GetHeight()
+int CTextureFrame::GetHeight()const
 {
-	return mp_texture->m_height;
+	return m_height;
 }
 
-void CTextureFrame::Draw(int x, int y,int w,int h, CTexture* target)
+void CTextureFrame::Draw(float x, float y,float w,float h, CTexture* target)
 {
 
 	glDisable(GL_CULL_FACE);

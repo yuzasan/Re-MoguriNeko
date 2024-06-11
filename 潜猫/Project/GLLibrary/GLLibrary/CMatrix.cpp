@@ -193,7 +193,7 @@ void CMatrix::Ortho(float left, float right, float bottom, float top, float zNea
 	m00 = 2 / (right - left);
 	m11 = 2 / (top - bottom);
 	m22 = -2 / (zFar - zNear);
-
+	m23 = -(zFar + zNear) / (zFar - zNear);
 }
 void CMatrix::Viewport(float x,float y,float w,float h) {
 	
